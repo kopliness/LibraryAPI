@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33723.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DomainLayer", "DomainLayer", "{3708158C-D641-4ACA-AC27-A59C34765836}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{7C6115F3-0060-4320-ADF3-D3ED24F68686}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{9154A4B9-B3FF-427C-BD41-7B25E1B86E1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Domain", "Library.Domain\Library.Domain.csproj", "{93122846-F9D1-4D08-9613-9B0CBD7D4095}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{93122846-F9D1-4D08-9613-9B0CBD7D4095}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93122846-F9D1-4D08-9613-9B0CBD7D4095}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93122846-F9D1-4D08-9613-9B0CBD7D4095}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93122846-F9D1-4D08-9613-9B0CBD7D4095}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{93122846-F9D1-4D08-9613-9B0CBD7D4095} = {3708158C-D641-4ACA-AC27-A59C34765836}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8A6FB863-75DC-4E56-8310-D0BB0D306082}
+	EndGlobalSection
+EndGlobal
