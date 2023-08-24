@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using Library.Domain.Dto;
+using Library.Domain.Models;
 
 namespace Library.Mapper.Extensions
 {
-    internal class MapToModelExtension
+    public static class MapToModelExtension
     {
+        public static BookModel? MapToModel(this BookDto bookDto, IMapper mapper)=>mapper.Map<BookModel>(bookDto);
     }
 }
