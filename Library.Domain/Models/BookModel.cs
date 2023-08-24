@@ -7,6 +7,7 @@
         public string Isbn { get; init; }
 
         public string Title { get; init; }
+
         public string Genre { get; init; }
 
         public string Description { get; init; }
