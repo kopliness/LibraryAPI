@@ -1,12 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Library.Domain.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Library.Database.Context.Configurations
 {
-    internal class UserConfiguration
+    public class UserConfiguration : IEntityTypeConfiguration<UserModel>
     {
+        public void Configure(EntityTypeBuilder<UserModel> builder)
+        {
+            builder.HasKey(login => login.Login);
+
+            builder.Property(login => login.Login)
+                .IsRequired()
+                .HasMaxLength(30);
+
+            builder.Property(password => password.Password)
+                .IsRequired()
+                .HasMaxLength(30);
+        }
     }
 }
