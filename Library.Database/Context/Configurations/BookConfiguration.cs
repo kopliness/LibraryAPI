@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Library.Database.Context.Configurations
 {
-    internal class BookConfiguration : IEntityTypeConfiguration<BookModel>
+    public class BookConfiguration : IEntityTypeConfiguration<BookModel>
     {
         public void Configure(EntityTypeBuilder<BookModel> builder)
         {
