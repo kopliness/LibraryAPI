@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Library.Domain.Dto;
+using Library.Domain.Models;
 
 namespace Library.Database.Repository.Interfaces
 {
-    internal class IUserRepository
+    public interface IUserRepository
     {
+        Task<UserDto?> GetUserAsync(UserDto userDto, CancellationToken cancellationToken = default);
+        Task<UserModel> RegisterUserAsync(UserDto userDto, CancellationToken cancellationToken = default);
     }
 }
