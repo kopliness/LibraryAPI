@@ -24,8 +24,4 @@
     <ProjectReference Include="..\Library.Mapper\Library.Mapper.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>

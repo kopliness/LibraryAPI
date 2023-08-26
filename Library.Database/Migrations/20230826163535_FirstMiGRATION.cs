@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Library.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstMigration : Migration
+    public partial class FirstMiGRATION : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,8 +21,8 @@ namespace Library.Database.Migrations
                     Genre = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Author = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    BorrowTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2023, 8, 25, 17, 51, 38, 352, DateTimeKind.Utc).AddTicks(8921)),
-                    ReturnTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2023, 9, 1, 17, 51, 38, 352, DateTimeKind.Utc).AddTicks(9429))
+                    BorrowTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2023, 8, 26, 16, 35, 34, 850, DateTimeKind.Utc).AddTicks(7478)),
+                    ReturnTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2023, 9, 2, 16, 35, 34, 850, DateTimeKind.Utc).AddTicks(7853))
                 },
                 constraints: table =>
                 {
@@ -40,6 +40,12 @@ namespace Library.Database.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.Login);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Books_Isbn",
+                table: "Books",
+                column: "Isbn",
+                unique: true);
         }
 
         /// <inheritdoc />

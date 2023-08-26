@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.Database.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    [Migration("20230825175139_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20230826163535_FirstMiGRATION")]
+    partial class FirstMiGRATION
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,7 +39,7 @@ namespace Library.Database.Migrations
                     b.Property<DateTime>("BorrowTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 8, 25, 17, 51, 38, 352, DateTimeKind.Utc).AddTicks(8921));
+                        .HasDefaultValue(new DateTime(2023, 8, 26, 16, 35, 34, 850, DateTimeKind.Utc).AddTicks(7478));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -59,7 +59,7 @@ namespace Library.Database.Migrations
                     b.Property<DateTime>("ReturnTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 9, 1, 17, 51, 38, 352, DateTimeKind.Utc).AddTicks(9429));
+                        .HasDefaultValue(new DateTime(2023, 9, 2, 16, 35, 34, 850, DateTimeKind.Utc).AddTicks(7853));
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -67,6 +67,9 @@ namespace Library.Database.Migrations
                         .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Isbn")
+                        .IsUnique();
 
                     b.ToTable("Books");
                 });
