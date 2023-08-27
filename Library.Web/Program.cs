@@ -7,6 +7,7 @@ using Library.Domain.Models;
 using Library.Auth.Interfaces;
 using Library.Auth;
 using Library.Web.Extensions;
+using Library.Web.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +43,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ErrorExceptionHandling>();
 
 app.UseHttpsRedirection();
 
