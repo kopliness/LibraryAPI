@@ -3,11 +3,15 @@ using Library.Database.Repository.Interfaces;
 using Library.Database.Repository;
 using Library.Mapper;
 using Microsoft.EntityFrameworkCore;
+using Library.Domain.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<LibraryContext>(opt=>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.Configure<JwtOptionsModel>(builder.Configuration.GetSection("Jwt"));
+
 // Add services to the container.
 builder.Services.AddAutoMapper(typeof(AppMappingProfile));
 
