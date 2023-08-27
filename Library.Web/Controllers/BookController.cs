@@ -1,10 +1,12 @@
 ﻿using Library.Database.Repository.Interfaces;
 using Library.Domain.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Web.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class BookController : ControllerBase
     {
