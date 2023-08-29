@@ -1,6 +1,6 @@
 ﻿using Microsoft.OpenApi.Models;
 
-namespace Library.Web.Extensions
+namespace Library.PresentationLayer.Extensions
 {
     public static class SwaggerWithJwtSecurityExtension
     {

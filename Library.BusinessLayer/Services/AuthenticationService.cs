@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using Library.DataLayer.Models.Dto;
 using Library.BusinessLayer.Services.Interfaces;
-using Library.DataLayer.Exceptions;
+using Library.Shared.Exceptions;
 
 namespace Library.BusinessLayer.Services
 {

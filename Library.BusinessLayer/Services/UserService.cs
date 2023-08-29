@@ -11,7 +11,7 @@ namespace Library.BusinessLayer.Services
 
         public UserService(IUserRepository userRepository)
         {
-                _userRepository = userRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<UserModel> RegisterUserAsync(UserDto userDto, CancellationToken cancellationToken = default)

@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Library.DataLayer\Library.DataLayer.csproj" />
+    <ProjectReference Include="..\Library.Shared\Library.Shared.csproj" />
   </ItemGroup>
 
 <!----></Project>

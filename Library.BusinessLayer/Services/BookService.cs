@@ -1,5 +1,5 @@
 ﻿using Library.BusinessLayer.Services.Interfaces;
-using Library.DataLayer.Exceptions;
+using Library.Shared.Exceptions;
 using Library.DataLayer.Models;
 using Library.DataLayer.Models.Dto;
 using Library.DataLayer.Repository.Interfaces;

@@ -1,10 +1,10 @@
-﻿using Library.DataLayer.Models;
+﻿using System.Text;
+using Library.DataLayer.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
-namespace Library.Web.Extensions
+namespace Library.PresentationLayer.Extensions
 {
     public static class AuthenticationWithJwtBearerExtension
     {

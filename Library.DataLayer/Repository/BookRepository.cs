@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Library.DataLayer.Context;
-using Library.DataLayer.Exceptions;
+using Library.Shared.Exceptions;
 using Library.DataLayer.Repository.Interfaces;
 using Library.DataLayer.Models;
 using Microsoft.EntityFrameworkCore;

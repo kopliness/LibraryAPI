@@ -3,10 +3,10 @@ using Library.DataLayer.Repository.Interfaces;
 using Library.DataLayer.Repository;
 using Microsoft.EntityFrameworkCore;
 using Library.DataLayer.Models;
-using Library.Web.Extensions;
-using Library.Web.Middlewares;
 using Library.BusinessLayer.Services.Interfaces;
 using Library.BusinessLayer.Services;
+using Library.PresentationLayer.Extensions;
+using Library.PresentationLayer.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 

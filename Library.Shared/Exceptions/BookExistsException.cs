@@ -1,4 +1,4 @@
-﻿namespace Library.DataLayer.Exceptions
+﻿namespace Library.Shared.Exceptions
 {
     public class BookExistsException: Exception
     {

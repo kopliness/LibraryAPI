@@ -1,8 +1,8 @@
-﻿using Library.DataLayer.Exceptions;
-using System.Net;
+﻿using System.Net;
+using Library.Shared.Exceptions;
 using Library.DataLayer.Models.Dto;
 
-namespace Library.Web.Middlewares
+namespace Library.PresentationLayer.Middlewares
 {
     public class ErrorExceptionHandling
     {
