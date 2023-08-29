@@ -6,13 +6,13 @@ namespace Library.PresentationLayer.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UserController : ControllerBase
+    public class AccountController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
 
         private readonly IUserService _userService;
 
-        public UserController(IAuthenticationService authenticationService, IUserService userService)
+        public AccountController(IAuthenticationService authenticationService, IUserService userService)
         {
             _authenticationService = authenticationService;
             _userService = userService;

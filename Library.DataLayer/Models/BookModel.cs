@@ -1,4 +1,4 @@
-﻿    using AutoMapper;
+﻿using AutoMapper;
 using Library.DataLayer.Models.Dto;
 
 namespace Library.DataLayer.Models
