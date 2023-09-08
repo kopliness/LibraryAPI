@@ -25,7 +25,7 @@ namespace Library.BusinessLayer.Services
 
             if (book == null)
             {
-                throw new NotFoundException("Книга не найдена");
+                throw new NotFoundException("Book not found");
             }
 
             return book;
@@ -42,7 +42,7 @@ namespace Library.BusinessLayer.Services
 
             if (book == null)
             {
-                throw new NotFoundException("Книга не найдена");
+                throw new NotFoundException("Book not found");
             }
 
             return book;
@@ -53,7 +53,7 @@ namespace Library.BusinessLayer.Services
 
             if (book == null)
             {
-                throw new NotFoundException("Книга не найдена");
+                throw new NotFoundException("Book not found");
             }
 
             return book;

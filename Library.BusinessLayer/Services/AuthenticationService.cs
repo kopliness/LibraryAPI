@@ -25,7 +25,7 @@ namespace Library.BusinessLayer.Services
 
             if (user == null)
             {
-                throw new NotFoundException("Пользователь не найден.");
+                throw new NotFoundException("User not found.");
             }
             
             var claims = new List<Claim>
@@ -37,7 +37,7 @@ namespace Library.BusinessLayer.Services
 
             if (token == null)
             {
-                throw new NotFoundException("Токен не найден.");
+                throw new NotFoundException("Token not found.");
             }
 
             return token;
