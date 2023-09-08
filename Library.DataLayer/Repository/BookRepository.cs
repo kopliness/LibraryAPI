@@ -29,8 +29,8 @@ namespace Library.DataLayer.Repository
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var book= await _context.Books.AsNoTracking()
-                .FirstOrDefaultAsync(isbn=>isbn.Isbn==bookDto.Isbn);
+            var book = await _context.Books.AsNoTracking()
+                .FirstOrDefaultAsync(isbn => isbn.Isbn == bookDto.Isbn);
 
             if (book != null)
             {
@@ -45,7 +45,7 @@ namespace Library.DataLayer.Repository
         }
 
         public async Task<BookDto?> ReadAsync(Guid? id = null, string? isbn = null,
-                                              CancellationToken cancellationToken = default)
+            CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -64,18 +64,19 @@ namespace Library.DataLayer.Repository
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var book = await _context.Books.FirstOrDefaultAsync(b=>b.Id==id);
+            var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == id);
 
             if (book == null)
             {
                 return null;
             }
+
             _mapper.Map(bookDto, book);
 
             await _context.SaveChangesAsync(cancellationToken);
 
             return _mapper.Map<BookDto>(book);
-        } 
+        }
 
         public async Task<BookDto?> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
         {
@@ -84,19 +85,17 @@ namespace Library.DataLayer.Repository
             var books = _context.Books;
             var book = books.FirstOrDefault(book => book.Id == id);
 
-            if( book == null )
+            if (book == null)
             {
                 return null;
             }
 
-            var entity = _context.Books.Remove( book );
+            var entity = _context.Books.Remove(book);
             await _context.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation($"Книга с Id {entity.Entity.Id} была удалена");
 
             return _mapper.Map<BookDto>(book);
         }
-
-
     }
 }

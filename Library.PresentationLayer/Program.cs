@@ -10,7 +10,7 @@ using Library.PresentationLayer.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<LibraryContext>(opt=>
+builder.Services.AddDbContext<LibraryContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.Configure<JwtOptionsModel>(builder.Configuration.GetSection("Jwt"));

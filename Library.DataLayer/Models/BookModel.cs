@@ -21,10 +21,10 @@ namespace Library.DataLayer.Models
 
         public DateTime ReturnTime { get; init; }
     }
+
     public class BookMappingProfile : Profile
     {
         public BookMappingProfile() => CreateMap<BookModel, BookDto>()
             .ReverseMap();
     }
-
 }

@@ -8,21 +8,21 @@ namespace Library.DataLayer.Context.Configurations
     {
         public void Configure(EntityTypeBuilder<BookModel> builder)
         {
-            builder.HasKey(key=>key.Id);
+            builder.HasKey(key => key.Id);
 
-            builder.Property(isbn=> isbn.Isbn)
+            builder.Property(isbn => isbn.Isbn)
                 .IsRequired()
                 .HasMaxLength(15);
 
-            builder.Property(title=>title.Title)
+            builder.Property(title => title.Title)
                 .IsRequired()
                 .HasMaxLength(30);
 
-            builder.Property(genre=>genre.Genre)
+            builder.Property(genre => genre.Genre)
                 .IsRequired()
                 .HasMaxLength(20);
 
-            builder.Property(description=>description.Description)
+            builder.Property(description => description.Description)
                 .IsRequired()
                 .HasMaxLength(200);
 

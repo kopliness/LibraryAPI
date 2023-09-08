@@ -26,6 +26,7 @@ namespace Library.PresentationLayer.Controllers
 
             return Ok(book);
         }
+
         [HttpPost]
         public async Task<IActionResult> AddBook(BookDto bookDto, CancellationToken cancellationToken = default)
         {
@@ -35,8 +36,10 @@ namespace Library.PresentationLayer.Controllers
 
             return Ok(book);
         }
+
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBook(Guid id, BookDto bookDto, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UpdateBook(Guid id, BookDto bookDto,
+            CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -44,6 +47,7 @@ namespace Library.PresentationLayer.Controllers
 
             return Ok(book);
         }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBook(Guid id, CancellationToken cancellationToken = default)
         {
@@ -53,6 +57,5 @@ namespace Library.PresentationLayer.Controllers
 
             return Ok(book);
         }
-
     }
 }

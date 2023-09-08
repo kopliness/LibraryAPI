@@ -10,7 +10,7 @@ namespace Library.BusinessLayer.Services
     {
         private readonly IBookRepository _bookRepository;
 
-        public BookService(IBookRepository bookRepository)=> _bookRepository = bookRepository;
+        public BookService(IBookRepository bookRepository) => _bookRepository = bookRepository;
 
         public async Task<BookModel?> AddBookAsync(BookDto bookDto, CancellationToken cancellationToken = default)
         {
@@ -19,7 +19,8 @@ namespace Library.BusinessLayer.Services
             return book;
         }
 
-        public async Task<BookDto?> GetBookAsync(Guid? id = null, string? isbn = null, CancellationToken cancellationToken = default)
+        public async Task<BookDto?> GetBookAsync(Guid? id = null, string? isbn = null,
+            CancellationToken cancellationToken = default)
         {
             var book = await _bookRepository.ReadAsync(id, isbn, cancellationToken);
 
@@ -36,7 +37,8 @@ namespace Library.BusinessLayer.Services
             return _bookRepository.ReadAll();
         }
 
-        public async Task<BookDto?> UpdateBookAsync(Guid id, BookDto bookDto, CancellationToken cancellationToken = default)
+        public async Task<BookDto?> UpdateBookAsync(Guid id, BookDto bookDto,
+            CancellationToken cancellationToken = default)
         {
             var book = await _bookRepository.UpdateAsync(id, bookDto, cancellationToken);
 
@@ -46,14 +48,15 @@ namespace Library.BusinessLayer.Services
             }
 
             return book;
-        } 
+        }
+
         public async Task<BookDto?> DeleteBookAsync(Guid id, CancellationToken cancellationToken = default)
         {
             var book = await _bookRepository.DeleteAsync(id, cancellationToken);
 
             if (book == null)
             {
-                throw new NotFoundException("Book not found");
+                throw new NotFoundException("Book not foundмне ");
             }
 
             return book;

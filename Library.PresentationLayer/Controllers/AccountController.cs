@@ -20,7 +20,7 @@ namespace Library.PresentationLayer.Controllers
 
         [HttpGet("getToken")]
         public async Task<IActionResult> GetToken([FromQuery] UserDto userDto,
-                                          CancellationToken cancellationToken = default)
+            CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 

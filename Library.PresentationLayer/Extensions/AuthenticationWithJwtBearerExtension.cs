@@ -9,7 +9,7 @@ namespace Library.PresentationLayer.Extensions
     public static class AuthenticationWithJwtBearerExtension
     {
         public static AuthenticationBuilder AddAuthenticationWithJwtBearer(this IServiceCollection collection,
-                                                                       JwtOptionsModel jwtOption)
+            JwtOptionsModel jwtOption)
         {
             if (jwtOption is not
                 {
@@ -25,11 +25,11 @@ namespace Library.PresentationLayer.Extensions
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOption.SecretKey));
 
             return collection.AddAuthentication(option =>
-            {
-                option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
+                {
+                    option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
                 .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = new()
@@ -42,9 +42,7 @@ namespace Library.PresentationLayer.Extensions
                         ValidAudience = jwtOption.Audience,
                         IssuerSigningKey = signingKey
                     };
-
                 });
-
         }
     }
 }
