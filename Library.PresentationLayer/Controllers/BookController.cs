@@ -17,12 +17,21 @@ namespace Library.PresentationLayer.Controllers
         [HttpGet]
         public async Task<IActionResult> GetBooks() => Ok(_bookService.GetBooks());
 
-        [HttpGet("/getBook")]
-        public async Task<IActionResult> GetBook(Guid? id, string? isbn, CancellationToken cancellationToken = default)
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetBookById(Guid id, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var book = await _bookService.GetBookAsync(id, isbn, cancellationToken);
+            var book = await _bookService.GetBookAsyncById(id, cancellationToken);
+
+            return Ok(book);
+        }
+        [HttpGet("{isbn}")]
+        public async Task<IActionResult> GetBookByIsbn(string isbn, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var book = await _bookService.GetBookAsyncByIsbn(isbn, cancellationToken);
 
             return Ok(book);
         }
@@ -37,7 +46,7 @@ namespace Library.PresentationLayer.Controllers
             return Ok(book);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateBook(Guid id, BookDto bookDto,
             CancellationToken cancellationToken = default)
         {
@@ -48,7 +57,7 @@ namespace Library.PresentationLayer.Controllers
             return Ok(book);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteBook(Guid id, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();

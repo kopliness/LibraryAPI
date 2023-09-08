@@ -19,10 +19,20 @@ namespace Library.BusinessLayer.Services
             return book;
         }
 
-        public async Task<BookDto?> GetBookAsync(Guid? id = null, string? isbn = null,
-            CancellationToken cancellationToken = default)
+        public async Task<BookDto?> GetBookAsyncById(Guid id , CancellationToken cancellationToken = default)
         {
-            var book = await _bookRepository.ReadAsync(id, isbn, cancellationToken);
+            var book = await _bookRepository.ReadAsyncById(id, cancellationToken);
+
+            if (book == null)
+            {
+                throw new NotFoundException("Book not found");
+            }
+
+            return book;
+        }
+        public async Task<BookDto?> GetBookAsyncByIsbn(string isbn, CancellationToken cancellationToken = default)
+        {
+            var book = await _bookRepository.ReadAsyncByIsbn(isbn, cancellationToken);
 
             if (book == null)
             {

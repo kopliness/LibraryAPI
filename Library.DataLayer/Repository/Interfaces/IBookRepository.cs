@@ -7,7 +7,8 @@ namespace Library.DataLayer.Repository.Interfaces
     {
         Task<BookModel?> CreateAsync(BookDto bookDto, CancellationToken cancellationToken = default);
         List<BookModel> ReadAll();
-        Task<BookDto?> ReadAsync(Guid? id = null, string? isbn = null, CancellationToken cancellationToken = default);
+        Task<BookDto?> ReadAsyncById(Guid id, CancellationToken cancellationToken = default);
+        Task<BookDto?> ReadAsyncByIsbn(string isbn, CancellationToken cancellationToken = default);
         Task<BookDto?> UpdateAsync(Guid id, BookDto bookDto, CancellationToken cancellationToken = default);
         Task<BookDto?> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
     }

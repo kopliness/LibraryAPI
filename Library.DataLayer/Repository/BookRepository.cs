@@ -44,16 +44,23 @@ namespace Library.DataLayer.Repository
             return entity.Entity;
         }
 
-        public async Task<BookDto?> ReadAsync(Guid? id = null, string? isbn = null,
-            CancellationToken cancellationToken = default)
+        public async Task<BookDto?> ReadAsyncById(Guid id, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
             var books = _context.Books;
 
-            var book = await _context.Books
-                .Where(b => b.Id == id || b.Isbn == isbn)
-                .FirstOrDefaultAsync();
+            var book = await _context.Books.FirstOrDefaultAsync(b=>b.Id == id);
+
+            return _mapper.Map<BookDto>(book);
+        }
+        public async Task<BookDto?> ReadAsyncByIsbn(string isbn, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var books = _context.Books;
+
+            var book = await _context.Books.FirstOrDefaultAsync(b=>b.Isbn == isbn);
 
             return _mapper.Map<BookDto>(book);
         }
