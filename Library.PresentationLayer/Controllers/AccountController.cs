@@ -3,6 +3,7 @@ using Library.BusinessLayer.Services.Interfaces;
 using Library.BusinessLayer.Validation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Library.PresentationLayer.Controllers
 {
@@ -25,6 +26,10 @@ namespace Library.PresentationLayer.Controllers
         }
 
         [HttpGet("sign-in")]
+        [SwaggerOperation(Summary = "Authorize", Description = "Authorize and receive a token for access")]
+        [SwaggerResponse(200, "Return a token", typeof(List<AuthorReadDto>))]
+        [SwaggerResponse(404, "User not found")]
+        [SwaggerResponse(500, "If there is an internal server error")]
         public async Task<IActionResult> GetToken([FromQuery] UserDto userDto,
             CancellationToken cancellationToken = default)
         {
@@ -41,6 +46,9 @@ namespace Library.PresentationLayer.Controllers
         }
 
         [HttpPost("sign-up")]
+        [SwaggerOperation(Summary = "Registration", Description = "Registration in the service")]
+        [SwaggerResponse(200, "Return a user")]
+        [SwaggerResponse(500, "If there is an internal server error")]
         public async Task<IActionResult> RegisterUser(UserDto userDto, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();

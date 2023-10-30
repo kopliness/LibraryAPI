@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text.Json.Serialization;
 using Library.DataLayer.Context;
 using Library.DataLayer.Repository.Interfaces;
@@ -8,6 +9,7 @@ using Library.BusinessLayer.Services.Interfaces;
 using Library.BusinessLayer.Services;
 using Library.PresentationLayer.Extensions;
 using Library.PresentationLayer.Middlewares;
+using Microsoft.OpenApi.Models;
 using Serilog;
 
 
@@ -49,6 +51,11 @@ builder.Services.AddValidators();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerWithJwtSecurity();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Book API", Version = "v1" });
+    c.EnableAnnotations();
+});
 
 var app = builder.Build();
 

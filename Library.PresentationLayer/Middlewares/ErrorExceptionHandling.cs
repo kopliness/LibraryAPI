@@ -18,6 +18,7 @@ namespace Library.PresentationLayer.Middlewares
 
             public async Task InvokeAsync(HttpContext context)
             {
+                
                 try
                 {
                     await _requestDelegate(context);
