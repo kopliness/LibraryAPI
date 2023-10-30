@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using Library.DataLayer.Models.Dto;
-
-namespace Library.DataLayer.Models
+﻿namespace Library.DataLayer.Models
 {
     public class BookModel
     {
@@ -14,17 +11,11 @@ namespace Library.DataLayer.Models
         public string Genre { get; set; }
 
         public string Description { get; set; }
-
-        public string Author { get; set; }
-
+        
+        public List<BookAuthor> BookAuthors { get; set; } = new();
+        
         public DateTime BorrowTime { get; init; }
 
         public DateTime ReturnTime { get; init; }
-    }
-
-    public class BookMappingProfile : Profile
-    {
-        public BookMappingProfile() => CreateMap<BookModel, BookDto>()
-            .ReverseMap();
     }
 }

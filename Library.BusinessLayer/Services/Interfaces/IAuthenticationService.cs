@@ -1,4 +1,5 @@
-﻿using Library.DataLayer.Models.Dto;
+﻿using Library.BusinessLayer.Dto;
+using Library.DataLayer.Models;
 
 namespace Library.BusinessLayer.Services.Interfaces
 {

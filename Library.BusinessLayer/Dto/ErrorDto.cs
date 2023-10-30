@@ -1,4 +1,4 @@
-﻿namespace Library.DataLayer.Models.Dto
+﻿namespace Library.BusinessLayer.Dto
 {
     public class ErrorDto
     {

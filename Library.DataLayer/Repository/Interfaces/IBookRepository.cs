@@ -1,15 +1,16 @@
-﻿using Library.DataLayer.Models.Dto;
-using Library.DataLayer.Models;
+﻿using Library.DataLayer.Models;
 
 namespace Library.DataLayer.Repository.Interfaces
 {
     public interface IBookRepository
     {
-        Task<BookModel?> CreateAsync(BookDto bookDto, CancellationToken cancellationToken = default);
+        Task<BookModel?> CreateAsync(BookModel bookModel, CancellationToken cancellationToken = default);
         List<BookModel> ReadAll();
-        Task<BookDto?> ReadAsyncById(Guid id, CancellationToken cancellationToken = default);
-        Task<BookDto?> ReadAsyncByIsbn(string isbn, CancellationToken cancellationToken = default);
-        Task<BookDto?> UpdateAsync(Guid id, BookDto bookDto, CancellationToken cancellationToken = default);
-        Task<BookDto?> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<BookModel?> ReadByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<BookModel?> ReadByIsbnAsync(string isbn, CancellationToken cancellationToken = default);
+        Task<BookModel?> UpdateAsync(Guid id, BookModel bookModel, CancellationToken cancellationToken = default);
+        Task<BookModel?> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+        Task AddAuthorToBook(Guid bookId, List<Guid> authorIds, CancellationToken cancellationToken = default);
+        Task<bool> AuthorExists(Guid authorId);
     }
 }

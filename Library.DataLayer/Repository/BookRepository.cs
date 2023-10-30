@@ -1,12 +1,8 @@
-﻿using AutoMapper;
-using Library.DataLayer.Context;
-using Library.Shared.Exceptions;
+﻿using Library.DataLayer.Context;
 using Library.DataLayer.Repository.Interfaces;
 using Library.DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System.Linq;
-using Library.DataLayer.Models.Dto;
+
 
 namespace Library.DataLayer.Repository
 {
@@ -14,95 +10,119 @@ namespace Library.DataLayer.Repository
     {
         private readonly LibraryContext _context;
 
-        private readonly ILogger<BookRepository> _logger;
+        public BookRepository(LibraryContext context) => _context = context;
 
-        private readonly IMapper _mapper;
-
-        public BookRepository(LibraryContext context, IMapper mapper, ILogger<BookRepository> logger)
+        public async Task<BookModel?> CreateAsync(BookModel bookModel, CancellationToken cancellationToken = default)
         {
-            _context = context;
-            _mapper = mapper;
-            _logger = logger;
+            cancellationToken.ThrowIfCancellationRequested();
+            
+            var book = await _context.AddAsync(bookModel, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+            
+            return book.Entity;
         }
 
-        public async Task<BookModel?> CreateAsync(BookDto bookDto, CancellationToken cancellationToken = default)
+
+        public async Task<BookModel?> ReadByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var book = await _context.Books.AsNoTracking()
-                .FirstOrDefaultAsync(isbn => isbn.Isbn == bookDto.Isbn);
+            var book = await _context.Books
+                .Include(b => b.BookAuthors)
+                .ThenInclude(ba => ba.Author)
+                .FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
+            
+            return book;
+        }
 
-            if (book != null)
+        public async Task<BookModel?> ReadByIsbnAsync(string isbn, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var book = await _context.Books
+                .Include(b=>b.BookAuthors)
+                .ThenInclude(ba=>ba.Author)
+                .FirstOrDefaultAsync(b => b.Isbn == isbn);
+
+            return book;
+        }
+
+        public List<BookModel> ReadAll()
+        {
+            return _context.Books
+                .Include(b => b.BookAuthors)
+                .ThenInclude(ba => ba.Author)
+                .AsNoTracking()
+                .ToList();
+        }
+
+
+        public async Task<BookModel?> UpdateAsync(Guid id, BookModel bookModel,
+            CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var book = await _context.Books
+                .Include(b => b.BookAuthors)
+                .FirstOrDefaultAsync(b => b.Id == id);
+
+            if (book == null)
             {
-                throw new BookExistsException("Книга с таким ISBN уже существует.");
+                return null;
             }
+            
+            var existingBookWithSameIsbn =
+                await _context.Books.FirstOrDefaultAsync(b => b.Isbn == book.Isbn, cancellationToken);
+            if (existingBookWithSameIsbn != null && existingBookWithSameIsbn.Id != id)
+            {
+                return null;
+            }
+            _context.BookAuthors.RemoveRange(book.BookAuthors);
 
-            book = _mapper.Map<BookModel>(bookDto);
-            var entity = await _context.AddAsync(book, cancellationToken);
+
+            book.Isbn = bookModel.Isbn;
+            book.Title = bookModel.Title;
+            book.Genre = bookModel.Genre;
+            book.Description = bookModel.Description;
+
             await _context.SaveChangesAsync(cancellationToken);
 
-            return entity.Entity;
+            return book;
         }
 
-        public async Task<BookDto?> ReadAsyncById(Guid id, CancellationToken cancellationToken = default)
+        public async Task<BookModel?> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var books = _context.Books;
-
-            var book = await _context.Books.FirstOrDefaultAsync(b=>b.Id == id);
-
-            return _mapper.Map<BookDto>(book);
-        }
-        public async Task<BookDto?> ReadAsyncByIsbn(string isbn, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            var books = _context.Books;
-
-            var book = await _context.Books.FirstOrDefaultAsync(b=>b.Isbn == isbn);
-
-            return _mapper.Map<BookDto>(book);
-        }
-
-        public List<BookModel> ReadAll() => _context.Books.AsNoTracking().ToList();
-
-        public async Task<BookDto?> UpdateAsync(Guid id, BookDto bookDto, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == id);
+            var book = _context.Books.FirstOrDefault(book => book.Id == id);
 
             if (book == null)
             {
                 return null;
             }
 
-            _mapper.Map(bookDto, book);
-
+            _context.Books.Remove(book);
+            
             await _context.SaveChangesAsync(cancellationToken);
-
-            return _mapper.Map<BookDto>(book);
+            
+            return book;
         }
 
-        public async Task<BookDto?> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task AddAuthorToBook(Guid bookId, List<Guid> authorIds, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var books = _context.Books;
-            var book = books.FirstOrDefault(book => book.Id == id);
-
-            if (book == null)
+            _context.BookAuthors.AddRange(authorIds.Select(x => new BookAuthor
             {
-                return null;
-            }
-
-            var entity = _context.Books.Remove(book);
+                BookId = bookId,
+                AuthorId = x
+            }));
+    
             await _context.SaveChangesAsync(cancellationToken);
-
-            _logger.LogInformation($"Книга с Id {entity.Entity.Id} была удалена");
-
-            return _mapper.Map<BookDto>(book);
+        }
+        public async Task<bool> AuthorExists(Guid authorId)
+        {
+            return await _context.Authors.AnyAsync(a => a.Id == authorId);
         }
     }
 }
