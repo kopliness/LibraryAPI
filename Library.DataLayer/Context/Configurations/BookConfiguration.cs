@@ -12,7 +12,7 @@ namespace Library.DataLayer.Context.Configurations
             
             builder.Property(isbn => isbn.Isbn)
                 .IsRequired()
-                .HasMaxLength(15);
+                .HasMaxLength(14);
 
             builder.Property(title => title.Title)
                 .IsRequired()

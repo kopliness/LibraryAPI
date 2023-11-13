@@ -77,5 +77,4 @@ public class AuthorRepository: IAuthorRepository
     {
         return await _context.Authors.FirstOrDefaultAsync(a => a.Id == id);
     }
-
 }

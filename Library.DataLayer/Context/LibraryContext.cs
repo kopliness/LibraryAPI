@@ -1,5 +1,4 @@
-﻿using Library.DataLayer.Context.Configurations;
-using Library.DataLayer.Models;
+﻿using Library.DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Library.DataLayer.Context
@@ -8,7 +7,11 @@ namespace Library.DataLayer.Context
     {
         public LibraryContext(DbContextOptions<LibraryContext> options) : base(options){}
 
-        public DbSet<BookModel> Books { get; set; }
+        public LibraryContext()
+        {
+            
+        }
+        public virtual DbSet<BookModel> Books { get; set; }
         public DbSet<UserModel> Users { get; set; }
         public DbSet<AuthorModel> Authors { get; set; }
         
