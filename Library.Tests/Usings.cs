@@ -1,0 +1,17 @@
+global using Xunit;
+global using AutoFixture;
+global using FluentAssertions;
+global using Library.DAL.Context;
+global using Library.DAL.Models;
+global using Library.DAL.Repository;
+global using Microsoft.EntityFrameworkCore;
+global using AutoMapper;
+global using Library.Business.Dto;
+global using Library.Business.Services;
+global using Library.DAL.Repository.Interfaces;
+global using Microsoft.Extensions.Logging;
+global using Moq;
+global using Library.Business.Services.Interfaces;
+global using System.Security.Claims;
+global using Microsoft.Extensions.Options;
+global using System.IdentityModel.Tokens.Jwt;

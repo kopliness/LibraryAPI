@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.DataLayer", "Library.DataLayer\Library.DataLayer.csproj", "{93122846-F9D1-4D08-9613-9B0CBD7D4095}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.DAL", "Library.DAL\Library.DAL.csproj", "{93122846-F9D1-4D08-9613-9B0CBD7D4095}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.PresentationLayer", "Library.PresentationLayer\Library.PresentationLayer.csproj", "{EE29DA43-816A-47B4-B45C-0E4C050DCBCF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.API", "Library.API\Library.API.csproj", "{EE29DA43-816A-47B4-B45C-0E4C050DCBCF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.BusinessLayer", "Library.BusinessLayer\Library.BusinessLayer.csproj", "{C9DF2CD8-EB89-4016-BAE0-E990BCFADA8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Business", "Library.Business\Library.Business.csproj", "{C9DF2CD8-EB89-4016-BAE0-E990BCFADA8E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Shared", "Library.Shared\Library.Shared.csproj", "{03F2B5F3-CECD-4492-97B5-1B900426DB66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Common", "Library.Common\Library.Common.csproj", "{03F2B5F3-CECD-4492-97B5-1B900426DB66}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Tests", "Library.DataLayer.Tests\Library.Tests.csproj", "{7CBC66AE-BF85-4ACF-9BC2-25F891DA4CAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Tests", "Library.Tests\Library.Tests.csproj", "{7CBC66AE-BF85-4ACF-9BC2-25F891DA4CAE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
