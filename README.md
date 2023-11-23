@@ -1,57 +1,78 @@
- ## Стек технологий:
+ # LibraryAPI
+ Brief description - library API service with functions for managing books, authors and user accounts.
+ ## Table of Contents
+ * [Functionality](#functionality)
+ * [Technology Stack](#technology-stack)
+ * [Before Running](#before-running)
+ * [Notes](#notes)
+
+## Functionality:
+
+For unauthorized users:
+- Registration and authorization
+
+For authorized users:
+- adding, deleting, changing authors
+- retrieve list of all books
+- retrieve a certain book by its Id or ISBN
+- adding a new book
+- change information about an existing book
+- book deletion
+ 
+ ## Technology Stack:
  - .Net 7.0
  - Entity Framework Core
  - MS SQL
  - AutoMapper
  - JWTBearer
  - Swagger
+ - Serilog
+ - FluentValidation
 
-## Для запуска:
-Клонировать репозиторий
-```bash
-https://github.com/kopliness/LibraryAPI
+## Before Running
+
+#### 1. Check out the repository
+You can clone an existing repository to your local computer, or to a codespace:
+
+```sh
+$ git clone git@github.com:kopliness/LibraryAPI.git
 ```
-Перейти в папку с проектом
-```bash
-cd LibraryAPI/Library.Web
+Then change directory to `LibraryAPI`:
+```sh
+$ cd LibraryAPI/Library.API
 ```
-Изменить строку подключения 
+
+#### 2.Find and open a file `appsettings.json`
+
+Change the connection string
 ```bash
 "ConnectionStrings": {
     "DefaultConnection": "Data Source=(yourServer);Integrated Security=True;Initial Catalog=Library;MultipleActiveResultSets=True;TrustServerCertificate=True"
   }
 ```
-Создать миграции
-```bash
-Add-Migration FirstMigration
+Apply the migrations to your database with the command
+```sh
+$  dotnet ef database update
 ```
-Применить миграции
-```bash
-Update-Database
+Launch the application with the command
+```sh
+$  dotnet run --project .\Library.API.csproj --launch-profile https
 ```
-Дальше нужно запустить проект командой 
-```bash
-  dotnet run --project .\Library.Web\Library.Web.csproj --launch-profile https
-```
-Перейти на страницу приложения
+#### 3.Go to the application page
+You can go to the application page at this link
+
 https://localhost:7148/swagger/index.html
-## Функционал:
 
-Для неавторизованных пользователей:
-- регистрация и авторизация
+## Notes
+  1. A 3-layer architecture was chosen as the architecture for this assignment. This architecture includes 3 layers: presentation layer, business logic layer, data access layer. There are also 2 additional layers: common and tests.
+  2. In addition to repositories, services for more convenient interaction were implemented.
+  3. Guid type was chosen for Id due to more convenience.
+  4. An unauthorized user will get a 401 error when trying to perform any operation.
+  5. Midvars have been created for input validation and exception handling.
+  6. Passwords are encrypted by algorithm before entering into the database.
+  7. When authorization takes place, the password is decrypted and compared to the entered password.
+  8. Added swagger annotations for more detailed descriptions of endpoints.
+  9. Also described status codes that are returned after endpoints are executed.
 
-Для авторизованных пользователей:
-- получение списка всех книг
-- получение определённой книги по её Id или ISBN(опционально)
-- добавление новой книги
-- изменение информации о существующей книге
-- удаление книги
 
-## Примечания
-  1. В качестве архитектуры для данного задания была выбрана архитектура 3-layer. Данная архитектура включает в себя 3 слоя: слой представления, слой бизнес-логики, слой доступа к данным.
-  2. Помимо репозиториев были реализованы сервисы для более удобного взаимодействия.
-  3. Для Id был выбран тип Guid за счет большего удобства.
-  4. Неавторизованный пользователь при попытке выполнить какую-либо операцию получит ошибку 401.
-  5. Для обработки ошибки добавления новой книги с уже имеющимся ISBN реализовано исключение BookExistsException.
-  6. Для обработки ошибки с неверным логином или паролем будет вызвано исключение NotFoundException.
-  7. Для обработки других ошибок реализован ErrorExceptionHandling.
+  
