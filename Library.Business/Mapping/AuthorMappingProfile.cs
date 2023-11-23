@@ -16,4 +16,3 @@ public class AuthorMappingProfile : Profile
             .ReverseMap();
     }
 }
-

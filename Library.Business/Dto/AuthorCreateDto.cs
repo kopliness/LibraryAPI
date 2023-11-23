@@ -1,3 +1,5 @@
 namespace Library.Business.Dto;
 
-public class AuthorCreateDto : BaseAuthorDto { }
+public class AuthorCreateDto : BaseAuthorDto
+{
+}

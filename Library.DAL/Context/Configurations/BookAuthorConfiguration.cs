@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Library.DAL.Context.Configurations;
 
-public class BookAuthorConfiguration: IEntityTypeConfiguration<BookAuthor>
+public class BookAuthorConfiguration : IEntityTypeConfiguration<BookAuthor>
 {
     public void Configure(EntityTypeBuilder<BookAuthor> builder)
     {

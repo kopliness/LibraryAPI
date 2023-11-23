@@ -24,7 +24,7 @@ public class TokenServiceTests
         // Arrange
         var claims = new List<Claim>
         {
-          new Claim("unique_name", "test user")
+            new("unique_name", "test user")
         };
 
 
@@ -36,7 +36,7 @@ public class TokenServiceTests
 
         // Decode token and validate claims
         var handler = new JwtSecurityTokenHandler();
-        string testUser = "test user";
+        var testUser = "test user";
         var tokenS = handler.ReadToken(result) as JwtSecurityToken;
 
         tokenS.Should().NotBeNull();

@@ -1,9 +1,8 @@
-﻿namespace Library.Business.Dto
-{
-    public class ErrorDto
-    {
-        public string Message { get; set; }
+﻿namespace Library.Business.Dto;
 
-        public int StatusCode { get; set; }
-    }
+public class ErrorDto
+{
+    public string Message { get; set; }
+
+    public int StatusCode { get; set; }
 }

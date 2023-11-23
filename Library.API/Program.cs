@@ -1,15 +1,14 @@
-using Library.DAL.Context;
-using Library.DAL.Repository.Interfaces;
-using Library.DAL.Repository;
-using Microsoft.EntityFrameworkCore;
-using Library.Business.Services.Interfaces;
-using Library.Business.Services;
 using Library.API.Extensions;
 using Library.API.Middlewares;
+using Library.Business.Services;
+using Library.Business.Services.Interfaces;
+using Library.DAL.Context;
 using Library.DAL.Entities;
+using Library.DAL.Repository;
+using Library.DAL.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Serilog;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,7 +50,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerWithJwtSecurity();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Book API", Version = "v1" }); 
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Book API", Version = "v1" });
     c.EnableAnnotations();
 });
 
@@ -63,7 +62,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseMiddleware<ErrorExceptionHandling>();
+app.UseMiddleware<ErrorExceptionHandling>(); 
 app.UseMiddleware<ValidationMiddleware>();
 
 

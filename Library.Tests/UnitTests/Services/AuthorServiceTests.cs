@@ -3,10 +3,11 @@
 public class AuthorServiceTests
 {
     private readonly Mock<IAuthorRepository> _authorRepositoryMock;
-    private readonly Mock<IMapper> _mapperMock;
-    private readonly Mock<ILogger<AuthorService>> _loggerMock;
     private readonly AuthorService _authorService;
-    AuthorCreateDto authorCreateDto = new ()
+    private readonly Mock<ILogger<AuthorService>> _loggerMock;
+    private readonly Mock<IMapper> _mapperMock;
+
+    private readonly AuthorCreateDto authorCreateDto = new()
     {
         FirstName = "TestName",
         LastName = "TestName"
@@ -25,8 +26,8 @@ public class AuthorServiceTests
     public async Task GetAuthors_ShouldReturnAuthors()
     {
         // Arrange
-        var authors = new List<Author> { new Author(), new Author() };
-        var authorReadDtos = new List<AuthorReadDto> { new AuthorReadDto(), new AuthorReadDto() };
+        var authors = new List<Author> { new(), new() };
+        var authorReadDtos = new List<AuthorReadDto> { new(), new() };
 
         _authorRepositoryMock.Setup(r => r.ReadAllAsync()).Returns(Task.FromResult(authors));
         _mapperMock.Setup(m => m.Map<List<AuthorReadDto>>(authors)).Returns(authorReadDtos);
@@ -57,7 +58,8 @@ public class AuthorServiceTests
         // Assert
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(authorCreateDto);
-        _authorRepositoryMock.Verify(repo => repo.CreateAsync(It.IsAny<Author>(), It.IsAny<CancellationToken>()), Times.Once);
+        _authorRepositoryMock.Verify(repo => repo.CreateAsync(It.IsAny<Author>(), It.IsAny<CancellationToken>()),
+            Times.Once);
     }
 
     [Fact]
@@ -82,8 +84,10 @@ public class AuthorServiceTests
         // Assert
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(authorCreateDto);
-        _authorRepositoryMock.Verify(repo => repo.UpdateAsync(id, It.IsAny<Author>(), It.IsAny<CancellationToken>()), Times.Once);
+        _authorRepositoryMock.Verify(repo => repo.UpdateAsync(id, It.IsAny<Author>(), It.IsAny<CancellationToken>()),
+            Times.Once);
     }
+
     [Fact]
     public async Task DeleteAuthorAsync_ShouldDeleteAuthor_WhenAuthorExists()
     {

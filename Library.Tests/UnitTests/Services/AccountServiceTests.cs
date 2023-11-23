@@ -3,14 +3,16 @@
 public class AccountServiceTests
 {
     private readonly Mock<IAccountRepository> _accountRepositoryMock;
-    private readonly Mock<IMapper> _mapperMock;
     private readonly AccountService _accountService;
     private readonly Mock<ILogger<AccountService>> _loggerMock;
-    AccountDto _accountDto = new ()
+    private readonly Mock<IMapper> _mapperMock;
+
+    private readonly AccountDto _accountDto = new()
     {
         Login = "TestLogin",
-        Password = "TestPassword",
+        Password = "TestPassword"
     };
+
     public AccountServiceTests()
     {
         _accountRepositoryMock = new Mock<IAccountRepository>();
@@ -42,8 +44,7 @@ public class AccountServiceTests
         // Assert
         result.Should().NotBeNull();
         result.Login.Should().BeEquivalentTo(accountModel.Login);
-        _accountRepositoryMock.Verify(r => r.RegisterAccountAsync(accountModel, It.IsAny<CancellationToken>()), Times.Once);
+        _accountRepositoryMock.Verify(r => r.RegisterAccountAsync(accountModel, It.IsAny<CancellationToken>()),
+            Times.Once);
     }
-
 }
-

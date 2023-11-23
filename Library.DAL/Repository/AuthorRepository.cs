@@ -5,19 +5,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Library.DAL.Repository;
 
-public class AuthorRepository: IAuthorRepository
+public class AuthorRepository : IAuthorRepository
 {
     private readonly LibraryContext _context;
-    
-    public AuthorRepository(LibraryContext context)=> _context = context;
-    
+
+    public AuthorRepository(LibraryContext context)
+    {
+        _context = context;
+    }
+
     public async Task<Author?> CreateAsync(Author newAuthor, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         var author = await _context.AddAsync(newAuthor, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
-        
+
         return author.Entity;
     }
 
@@ -29,6 +32,7 @@ public class AuthorRepository: IAuthorRepository
             .AsNoTracking()
             .ToListAsync();
     }
+
     public async Task<Author?> UpdateAsync(Guid id, Author newAuthor, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -36,12 +40,9 @@ public class AuthorRepository: IAuthorRepository
         var oldAuthor = await _context.Authors
             .Include(a => a.BookAuthors)
             .ThenInclude(ba => ba.Book)
-            .FirstOrDefaultAsync(a => a.Id == id);    
+            .FirstOrDefaultAsync(a => a.Id == id);
 
-        if (newAuthor == null)
-        {
-            return null;
-        }
+        if (newAuthor == null) return null;
 
         oldAuthor.FirstName = newAuthor.FirstName;
         oldAuthor.LastName = newAuthor.LastName;
@@ -66,16 +67,14 @@ public class AuthorRepository: IAuthorRepository
             .ThenInclude(ba => ba.Book)
             .FirstOrDefaultAsync(author => author.Id == id);
 
-        if (author == null)
-        {
-            return null;
-        }
-        
+        if (author == null) return null;
+
         _context.Authors.Remove(author);
         await _context.SaveChangesAsync(cancellationToken);
-        
+
         return author;
     }
+
     public async Task<Author?> ReadAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await _context.Authors.FirstOrDefaultAsync(a => a.Id == id);

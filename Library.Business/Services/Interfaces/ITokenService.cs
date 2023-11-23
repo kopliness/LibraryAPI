@@ -1,9 +1,8 @@
 ﻿using System.Security.Claims;
 
-namespace Library.Business.Services.Interfaces
+namespace Library.Business.Services.Interfaces;
+
+public interface ITokenService
 {
-    public interface ITokenService
-    {
-        string GenerateTokenAsync(List<Claim> claims);
-    }
+    string GenerateTokenAsync(List<Claim> claims);
 }

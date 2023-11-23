@@ -28,7 +28,7 @@ public class BookValidator : AbstractValidator<BookCreateDto>
             .MaximumLength(1000).WithMessage("The description is too long")
             .MinimumLength(10).WithMessage("The description is too short")
             .Must(NotContainBannedWords).WithMessage("Bad words in description");
-            
+
         RuleFor(x => x.Authors)
             .NotEmpty().WithMessage("Authors is required");
 
@@ -37,38 +37,37 @@ public class BookValidator : AbstractValidator<BookCreateDto>
             .Must(BeUnique).WithMessage("Author IDs must be unique");
 
         RuleForEach(x => x.Authors)
-            .NotEqual(Guid.Empty).WithMessage("Id cannot be empty");;
-        
+            .NotEqual(Guid.Empty).WithMessage("Id cannot be empty");
+        ;
     }
+
     private bool BeUnique(List<Guid> authorIds)
     {
         var uniqueAuthorIds = new HashSet<Guid>(authorIds);
         return uniqueAuthorIds.Count == authorIds.Count;
     }
+
     private bool BeAValidText(string text)
     {
-        if(string.IsNullOrWhiteSpace(text))
+        if (string.IsNullOrWhiteSpace(text))
             return false;
 
         var regex = new Regex(@"^[A-Za-z\s]+$");
-  
+
         return regex.IsMatch(text);
     }
 
     private bool BeAValidPastDate(DateTime? date)
     {
-        if (!date.HasValue)
-        {
-            return false;
-        }
+        if (!date.HasValue) return false;
 
         return date.Value < DateTime.Now;
     }
 
     private bool NotContainBannedWords(string text)
     {
-        var bannedWords = new List<string>{"banned","bad","word"};
-        
-        return!bannedWords.Any(x => text.Contains(x));
+        var bannedWords = new List<string> { "banned", "bad", "word" };
+
+        return !bannedWords.Any(x => text.Contains(x));
     }
 }

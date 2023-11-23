@@ -19,13 +19,14 @@ public class AuthorValidator : AbstractValidator<AuthorCreateDto>
             .MinimumLength(2).WithMessage("The lastname is too short")
             .Must(BeAValidText).WithMessage("Incorrect lastname");
     }
+
     private bool BeAValidText(string text)
     {
-        if(string.IsNullOrWhiteSpace(text))
+        if (string.IsNullOrWhiteSpace(text))
             return false;
 
         var regex = new Regex(@"^[A-Za-z\s]+$");
-  
+
         return regex.IsMatch(text);
     }
 }

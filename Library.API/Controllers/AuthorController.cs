@@ -13,14 +13,20 @@ public class AuthorController : ControllerBase
 {
     private readonly IAuthorService _authorService;
 
-    public AuthorController(IAuthorService authorService) => _authorService = authorService;
+    public AuthorController(IAuthorService authorService)
+    {
+        _authorService = authorService;
+    }
 
     [HttpGet]
     [SwaggerOperation(Summary = "Get all authors", Description = "Get a list of all authors")]
     [SwaggerResponse(200, "Returns a list of AuthorReadDto", typeof(List<AuthorReadDto>))]
     [SwaggerResponse(401, "If user is not authorized")]
     [SwaggerResponse(500, "If there is an internal server error")]
-    public async Task<IActionResult> GetAuthors() => Ok(await _authorService.GetAuthorsAsync());
+    public async Task<IActionResult> GetAuthors()
+    {
+        return Ok(await _authorService.GetAuthorsAsync());
+    }
 
 
     [HttpPost]
@@ -29,10 +35,11 @@ public class AuthorController : ControllerBase
     [SwaggerResponse(400, "Bad Request")]
     [SwaggerResponse(401, "If user is not authorized")]
     [SwaggerResponse(500, "If there is an internal server error")]
-    public async Task<IActionResult> AddAuthor(AuthorCreateDto authorCreateDto, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> AddAuthor(AuthorCreateDto authorCreateDto,
+        CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-  
+
         var author = await _authorService.AddAuthorAsync(authorCreateDto, cancellationToken);
 
         return Created($"/api/authors/{author}", author);

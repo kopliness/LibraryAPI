@@ -1,4 +1,5 @@
 namespace Library.Tests.IntegrationTests.Repositories;
+
 public class AccountRepositoryTests
 {
     private readonly Fixture _fixture;

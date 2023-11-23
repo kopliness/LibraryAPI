@@ -12,10 +12,12 @@ public class BookMappingProfile : Profile
             .ForMember(destination => destination.BookAuthors, opt => opt.NullSubstitute(new List<BookAuthor>())));
 
         CreateMap<Book, BookCreateDto>()
-            .ForMember(dest => dest.Authors, opt => opt.MapFrom(src => src.BookAuthors.Select(ur => ur.AuthorId).ToList()))
+            .ForMember(dest => dest.Authors,
+                opt => opt.MapFrom(src => src.BookAuthors.Select(ur => ur.AuthorId).ToList()))
             .ReverseMap();
         CreateMap<Book, BookReadDto>()
-            .ForMember(dest => dest.Authors, opt => opt.MapFrom(src => src.BookAuthors.Select(ur => ur.Author).ToList()))
+            .ForMember(dest => dest.Authors,
+                opt => opt.MapFrom(src => src.BookAuthors.Select(ur => ur.Author).ToList()))
             .ReverseMap();
     }
 }

@@ -13,7 +13,10 @@ public class BookController : ControllerBase
 {
     private readonly IBookService _bookService;
 
-    public BookController(IBookService bookService) => _bookService = bookService;
+    public BookController(IBookService bookService)
+    {
+        _bookService = bookService;
+    }
 
 
     [HttpGet]
@@ -21,7 +24,10 @@ public class BookController : ControllerBase
     [SwaggerResponse(200, "Returns a list of BookReadDto", typeof(List<BookReadDto>))]
     [SwaggerResponse(401, "If account is not authorized")]
     [SwaggerResponse(500, "If there is an internal server error")]
-    public async Task<IActionResult> GetBooks() => Ok(await _bookService.GetBooksAsync());
+    public async Task<IActionResult> GetBooks()
+    {
+        return Ok(await _bookService.GetBooksAsync());
+    }
 
     [SwaggerOperation(Summary = "Get a book by ID", Description = "Get a specific book by ID")]
     [SwaggerResponse(200, "Returns a book with the specified ID", typeof(BookReadDto))]

@@ -1,11 +1,10 @@
-﻿namespace Library.DAL.Entities
+﻿namespace Library.DAL.Entities;
+
+public class JwtOptions
 {
-    public class JwtOptions
-    {
-        public string SecretKey { get; set; }
+    public string SecretKey { get; set; }
 
-        public string Issuer { get; set; }
+    public string Issuer { get; set; }
 
-        public string Audience { get; set; }
-    }
+    public string Audience { get; set; }
 }

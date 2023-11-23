@@ -3,17 +3,19 @@
 public class BookServiceTests
 {
     private readonly Mock<IBookRepository> _bookRepositoryMock;
-    private readonly Mock<IMapper> _mapperMock;
-    private readonly Mock<ILogger<BookService>> _loggerMock;
     private readonly BookService _bookService;
-    BookCreateDto bookCreateDto = new ()
+    private readonly Mock<ILogger<BookService>> _loggerMock;
+    private readonly Mock<IMapper> _mapperMock;
+
+    private readonly BookCreateDto bookCreateDto = new()
     {
         Isbn = "1234567844490",
         Title = "Test Book",
         Genre = "Fiction",
         Description = "This is a test book",
-        Authors = new List<Guid> { Guid.NewGuid() },
+        Authors = new List<Guid> { Guid.NewGuid() }
     };
+
     public BookServiceTests()
     {
         _bookRepositoryMock = new Mock<IBookRepository>();
@@ -37,13 +39,14 @@ public class BookServiceTests
         _bookRepositoryMock.Setup(repo => repo.AuthorExists(It.IsAny<Guid>()))
             .ReturnsAsync(true);
 
-        _bookRepositoryMock.Setup(repo => repo.AddAuthorToBook(It.IsAny<Guid>(), It.IsAny<List<Guid>>(), cancellationToken))
-         .Returns(Task.CompletedTask);
+        _bookRepositoryMock.Setup(repo =>
+                repo.AddAuthorToBook(It.IsAny<Guid>(), It.IsAny<List<Guid>>(), cancellationToken))
+            .Returns(Task.CompletedTask);
 
         _bookRepositoryMock.Setup(repo => repo.CreateAsync(It.IsAny<Book>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(bookModel);
 
-        _mapperMock.Setup(m => m.Map<Book,BookCreateDto>(bookModel)).Returns(bookCreateDto);
+        _mapperMock.Setup(m => m.Map<Book, BookCreateDto>(bookModel)).Returns(bookCreateDto);
 
         // Act
         var result = await _bookService.AddBookAsync(bookCreateDto);
@@ -101,8 +104,8 @@ public class BookServiceTests
     public async Task GetBooks_ShouldReturnBooks()
     {
         // Arrange
-        var bookModels = new List<Book> { new Book(), new Book() };
-        var bookReadDtos = new List<BookReadDto> { new BookReadDto(), new BookReadDto() };
+        var bookModels = new List<Book> { new(), new() };
+        var bookReadDtos = new List<BookReadDto> { new(), new() };
 
         _bookRepositoryMock.Setup(r => r.ReadAllAsync()).Returns(Task.FromResult(bookModels));
 
@@ -145,7 +148,8 @@ public class BookServiceTests
         // Assert
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(bookCreateDto);
-        _bookRepositoryMock.Verify(repo => repo.UpdateAsync(id, It.IsAny<Book>(), It.IsAny<CancellationToken>()), Times.Once);
+        _bookRepositoryMock.Verify(repo => repo.UpdateAsync(id, It.IsAny<Book>(), It.IsAny<CancellationToken>()),
+            Times.Once);
     }
 
 
@@ -170,5 +174,4 @@ public class BookServiceTests
         result.Should().BeEquivalentTo(bookReadDto);
         _bookRepositoryMock.Verify(r => r.DeleteAsync(id, CancellationToken.None), Times.Once);
     }
-
 }

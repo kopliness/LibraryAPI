@@ -1,7 +1,6 @@
-﻿namespace Library.Business.Dto
+﻿namespace Library.Business.Dto;
+
+public class BookCreateDto : BaseBookDto
 {
-    public class BookCreateDto : BaseBookDto
-    {
-        public List<Guid> Authors { get; set; }
-    }
+    public List<Guid> Authors { get; set; }
 }

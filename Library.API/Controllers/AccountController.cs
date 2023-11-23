@@ -9,9 +9,8 @@ namespace Library.API.Controllers;
 [Route("account")]
 public class AccountController : ControllerBase
 {
-    private readonly IAuthenticationService _authenticationService;
-
     private readonly IAccountService _accountService;
+    private readonly IAuthenticationService _authenticationService;
 
     public AccountController(IAuthenticationService authenticationService, IAccountService accountService)
     {

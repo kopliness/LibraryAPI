@@ -9,7 +9,10 @@ public class AccountRepository : IAccountRepository
 {
     private readonly LibraryContext _context;
 
-    public AccountRepository(LibraryContext context) => _context = context;
+    public AccountRepository(LibraryContext context)
+    {
+        _context = context;
+    }
 
     public async Task<Account?> GetAccountAsync(Account account, CancellationToken cancellationToken = default)
     {
@@ -32,6 +35,7 @@ public class AccountRepository : IAccountRepository
 
         return accountEntity.Entity;
     }
+
     public async Task<bool> IsLoginTakenAsync(string login, CancellationToken cancellationToken = default)
     {
         return await _context.Accounts.AnyAsync(a => a.Login == login, cancellationToken);

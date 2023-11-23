@@ -3,10 +3,10 @@
 public class AuthenticationServiceTests
 {
     private readonly Mock<IAccountRepository> _accountRepositoryMock;
-    private readonly Mock<ITokenService> _tokenServiceMock;
-    private readonly Mock<IMapper> _mapperMock;
-    private readonly Mock<ILogger<AuthenticationService>> _loggerMock;
     private readonly AuthenticationService _authenticationService;
+    private readonly Mock<ILogger<AuthenticationService>> _loggerMock;
+    private readonly Mock<IMapper> _mapperMock;
+    private readonly Mock<ITokenService> _tokenServiceMock;
 
     public AuthenticationServiceTests()
     {
