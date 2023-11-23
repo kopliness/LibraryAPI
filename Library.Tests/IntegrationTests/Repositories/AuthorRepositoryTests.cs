@@ -49,7 +49,7 @@ public class AuthorRepositoryTests
             var repository = new AuthorRepository(context);
 
             // Act
-            var result = repository.ReadAll();
+            var result = await repository.ReadAllAsync();
 
             // Assert
             result.Should().NotBeNull();

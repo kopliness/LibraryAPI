@@ -39,9 +39,6 @@ public class BookValidator : AbstractValidator<BookCreateDto>
         RuleForEach(x => x.Authors)
             .NotEqual(Guid.Empty).WithMessage("Id cannot be empty");;
         
-        RuleFor(x => x.BorrowTime)
-            .LessThanOrEqualTo(x => x.ReturnTime).WithMessage("Incorrect time format")
-            .Must(BeAValidPastDate).WithMessage("The date must be in the past");
     }
     private bool BeUnique(List<Guid> authorIds)
     {

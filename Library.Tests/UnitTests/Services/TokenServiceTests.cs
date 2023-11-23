@@ -19,7 +19,7 @@ public class TokenServiceTests
     }
 
     [Fact]
-    public async Task GenerateTokenAsync_ShouldGenerateToken_WhenClaimsAreValid()
+    public void GenerateTokenAsync_ShouldGenerateToken_WhenClaimsAreValid()
     {
         // Arrange
         var claims = new List<Claim>
@@ -29,16 +29,17 @@ public class TokenServiceTests
 
 
         // Act
-        var result = await _tokenService.GenerateTokenAsync(claims);
+        var result = _tokenService.GenerateTokenAsync(claims);
 
         // Assert
         Assert.NotNull(result);
 
         // Decode token and validate claims
         var handler = new JwtSecurityTokenHandler();
+        string testUser = "test user";
         var tokenS = handler.ReadToken(result) as JwtSecurityToken;
 
-        Assert.NotNull(tokenS);
-        Assert.Equal("test user", tokenS.Claims.First(claim => claim.Type == "unique_name").Value);
+        tokenS.Should().NotBeNull();
+        testUser.Should().BeEquivalentTo(tokenS.Claims.First(claim => claim.Type == "unique_name").Value);
     }
 }

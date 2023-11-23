@@ -1,11 +1,10 @@
 using Library.Business.Dto;
-using Library.DAL.Models;
 
 namespace Library.Business.Services.Interfaces;
 
 public interface IAuthorService
 {
-    List<AuthorReadDto> GetAuthors();
+    Task<List<AuthorReadDto>> GetAuthorsAsync();
     
     Task<AuthorCreateDto> AddAuthorAsync(AuthorCreateDto authorCreateDto, CancellationToken cancellationToken = default);
 

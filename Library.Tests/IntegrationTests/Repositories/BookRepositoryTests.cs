@@ -98,13 +98,14 @@ public class BookRepositoryTests
             var repository = new BookRepository(context);
 
             // Act
-            var result = repository.ReadAll();
+            var result = await repository.ReadAllAsync();
 
             // Assert
             result.Should().NotBeNull();
             result.Should().HaveCountGreaterThan(0);
         }
     }
+
 
     [Fact]
     public async Task UpdateBookAsync_ShouldUpdateBook()

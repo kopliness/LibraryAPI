@@ -1,6 +1,6 @@
 ﻿using Library.DAL.Context;
+using Library.DAL.Entities;
 using Library.DAL.Repository.Interfaces;
-using Library.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -12,14 +12,14 @@ namespace Library.DAL.Repository
 
         public BookRepository(LibraryContext context) => _context = context;
 
-        public async Task<Book?> CreateAsync(Book book, CancellationToken cancellationToken = default)
+        public async Task<Book?> CreateAsync(Book newBook, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             
-            var books = await _context.AddAsync(book, cancellationToken);
+            var book = await _context.AddAsync(newBook, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
             
-            return books.Entity;
+            return book.Entity;
         }
 
 
@@ -47,54 +47,57 @@ namespace Library.DAL.Repository
             return book;
         }
 
-        public List<Book> ReadAll()
+        public async Task<List<Book>> ReadAllAsync()
         {
-            return _context.Books
+            return await _context.Books
                 .Include(b => b.BookAuthors)
                 .ThenInclude(ba => ba.Author)
                 .AsNoTracking()
-                .ToList();
+                .ToListAsync();
         }
 
 
-        public async Task<Book?> UpdateAsync(Guid id, Book book,
+        public async Task<Book?> UpdateAsync(Guid id, Book newBook,
             CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var books = await _context.Books
+            var book = await _context.Books
                 .Include(b => b.BookAuthors)
                 .FirstOrDefaultAsync(b => b.Id == id);
 
-            if (books == null)
+            if (book == null)
             {
                 return null;
             }
             
             var existingBookWithSameIsbn =
-                await _context.Books.FirstOrDefaultAsync(b => b.Isbn == books.Isbn, cancellationToken);
+                await _context.Books.FirstOrDefaultAsync(b => b.Isbn == book.Isbn, cancellationToken);
             if (existingBookWithSameIsbn != null && existingBookWithSameIsbn.Id != id)
             {
                 return null;
             }
-            _context.BookAuthors.RemoveRange(books.BookAuthors);
+            _context.BookAuthors.RemoveRange(book.BookAuthors);
 
 
-            books.Isbn = book.Isbn;
-            books.Title = book.Title;
-            books.Genre = book.Genre;
-            books.Description = book.Description;
+            book.Isbn = newBook.Isbn;
+            book.Title = newBook.Title;
+            book.Genre = newBook.Genre;
+            book.Description = newBook.Description;
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return books;
+            return book;
         }
 
         public async Task<Book?> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var book = _context.Books.FirstOrDefault(book => book.Id == id);
+            var book = await _context.Books
+                .Include(b => b.BookAuthors)
+                .ThenInclude(ba => ba.Author)
+                .FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
 
             if (book == null)
             {
@@ -102,11 +105,12 @@ namespace Library.DAL.Repository
             }
 
             _context.Books.Remove(book);
-            
+   
             await _context.SaveChangesAsync(cancellationToken);
-            
+   
             return book;
         }
+
 
         public async Task AddAuthorToBook(Guid bookId, List<Guid> authorIds, CancellationToken cancellationToken = default)
         {

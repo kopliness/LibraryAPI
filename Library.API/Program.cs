@@ -2,11 +2,11 @@ using Library.DAL.Context;
 using Library.DAL.Repository.Interfaces;
 using Library.DAL.Repository;
 using Microsoft.EntityFrameworkCore;
-using Library.DAL.Models;
 using Library.Business.Services.Interfaces;
 using Library.Business.Services;
 using Library.API.Extensions;
 using Library.API.Middlewares;
+using Library.DAL.Entities;
 using Microsoft.OpenApi.Models;
 using Serilog;
 
@@ -21,13 +21,13 @@ builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IBookRepository, BookRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IBookService, BookService>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 
 
@@ -64,6 +64,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseMiddleware<ErrorExceptionHandling>();
+app.UseMiddleware<ValidationMiddleware>();
+
 
 app.UseHttpsRedirection();
 
@@ -73,5 +75,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-public partial class Program { }

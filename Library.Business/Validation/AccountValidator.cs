@@ -3,9 +3,9 @@ using Library.Business.Dto;
 
 namespace Library.Business.Validation;
 
-public class UserValidator : AbstractValidator<UserDto>
+public class AccountValidator : AbstractValidator<AccountDto>
 {
-    public UserValidator()
+    public AccountValidator()
     {
         RuleFor(x => x.Login)
             .NotEmpty().WithMessage("Login should not be blank")

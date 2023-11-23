@@ -4,6 +4,6 @@ namespace Library.Business.Services.Interfaces
 {
     public interface ITokenService
     {
-        Task<string> GenerateTokenAsync(List<Claim> claims);
+        string GenerateTokenAsync(List<Claim> claims);
     }
 }

@@ -22,7 +22,30 @@ namespace Library.DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Library.DAL.Models.AuthorModel", b =>
+            modelBuilder.Entity("Library.DAL.Entities.Account", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Login")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Salt")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Accounts");
+                });
+
+            modelBuilder.Entity("Library.DAL.Models.Author", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -43,6 +66,47 @@ namespace Library.DAL.Migrations
                     b.ToTable("Authors");
                 });
 
+            modelBuilder.Entity("Library.DAL.Models.Book", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("BorrowTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2023, 11, 23, 14, 30, 32, 878, DateTimeKind.Local).AddTicks(5742));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Genre")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Isbn")
+                        .IsRequired()
+                        .HasMaxLength(14)
+                        .HasColumnType("nvarchar(14)");
+
+                    b.Property<DateTime>("ReturnTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2023, 11, 30, 14, 30, 32, 878, DateTimeKind.Local).AddTicks(6356));
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Books");
+                });
+
             modelBuilder.Entity("Library.DAL.Models.BookAuthor", b =>
                 {
                     b.Property<Guid>("BookId")
@@ -58,72 +122,15 @@ namespace Library.DAL.Migrations
                     b.ToTable("BookAuthors");
                 });
 
-            modelBuilder.Entity("Library.DAL.Models.BookModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("BorrowTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 18, 11, 12, 10, 547, DateTimeKind.Local).AddTicks(6574));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Genre")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Isbn")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<DateTime>("ReturnTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 25, 11, 12, 10, 547, DateTimeKind.Local).AddTicks(7530));
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Books");
-                });
-
-            modelBuilder.Entity("Library.DAL.Models.UserModel", b =>
-                {
-                    b.Property<string>("Login")
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.HasKey("Login");
-
-                    b.ToTable("Users");
-                });
-
             modelBuilder.Entity("Library.DAL.Models.BookAuthor", b =>
                 {
-                    b.HasOne("Library.DAL.Models.AuthorModel", "Author")
+                    b.HasOne("Library.DAL.Models.Author", "Author")
                         .WithMany("BookAuthors")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Library.DAL.Models.BookModel", "Book")
+                    b.HasOne("Library.DAL.Models.Book", "Book")
                         .WithMany("BookAuthors")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -134,12 +141,12 @@ namespace Library.DAL.Migrations
                     b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("Library.DAL.Models.AuthorModel", b =>
+            modelBuilder.Entity("Library.DAL.Models.Author", b =>
                 {
                     b.Navigation("BookAuthors");
                 });
 
-            modelBuilder.Entity("Library.DAL.Models.BookModel", b =>
+            modelBuilder.Entity("Library.DAL.Models.Book", b =>
                 {
                     b.Navigation("BookAuthors");
                 });

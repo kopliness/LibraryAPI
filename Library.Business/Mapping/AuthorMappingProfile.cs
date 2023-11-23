@@ -1,6 +1,6 @@
 using AutoMapper;
 using Library.Business.Dto;
-using Library.DAL.Models;
+using Library.DAL.Entities;
 
 namespace Library.Business.Mapping;
 

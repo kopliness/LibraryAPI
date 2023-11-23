@@ -10,7 +10,4 @@ public abstract class BaseBookDto
     
     public string? Description {get; set;}
     
-    public DateTime? BorrowTime {get; set;}
-    
-    public DateTime? ReturnTime {get; set;}
 }

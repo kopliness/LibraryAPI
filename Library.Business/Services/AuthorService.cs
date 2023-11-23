@@ -1,9 +1,9 @@
 using AutoMapper;
 using Library.Business.Dto;
 using Library.Business.Services.Interfaces;
-using Library.DAL.Models;
 using Library.DAL.Repository.Interfaces;
 using Library.Common.Exceptions;
+using Library.DAL.Entities;
 using Microsoft.Extensions.Logging;
 
 namespace Library.Business.Services;
@@ -22,11 +22,11 @@ public class AuthorService : IAuthorService
         _logger = logger;
     }
     
-    public List<AuthorReadDto> GetAuthors()
+    public async Task<List<AuthorReadDto>> GetAuthorsAsync()
     {
         _logger.LogInformation("Getting the whole list of authors.");
 
-        var authors = _authorRepository.ReadAll();
+        var authors = await _authorRepository.ReadAllAsync();
         _logger.LogInformation("Retrieving the entire list of authors was successful.");
 
         return _mapper.Map<List<AuthorReadDto>>(authors);
@@ -53,8 +53,8 @@ public class AuthorService : IAuthorService
 
         if (existingAuthor == null)
         {
-            _logger.LogError("Author with id {id} not found");
-            throw new NotFoundException("Author with id {id} not found");
+            _logger.LogError($"Author with ID {id} not found.", id);
+            throw new NotFoundException("Author with this id not found.", id);
         }
 
         var authorModel = _mapper.Map<Author>(authorCreateDto);
@@ -73,8 +73,8 @@ public class AuthorService : IAuthorService
 
         if (author == null)
         {
-            _logger.LogError("Author with ID {id} not found.");
-            throw new NotFoundException("Author not found");
+            _logger.LogError($"Author with ID {id} not found.", id);
+            throw new NotFoundException("Author with this id not found.", id);
         }
         
         _logger.LogInformation("The removal of the author was successful with Id : {id}", id);

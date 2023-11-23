@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using Library.DAL.Models;
+using Library.DAL.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;

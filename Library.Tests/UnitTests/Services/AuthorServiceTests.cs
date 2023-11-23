@@ -6,7 +6,7 @@ public class AuthorServiceTests
     private readonly Mock<IMapper> _mapperMock;
     private readonly Mock<ILogger<AuthorService>> _loggerMock;
     private readonly AuthorService _authorService;
-    AuthorCreateDto authorCreateDto = new AuthorCreateDto
+    AuthorCreateDto authorCreateDto = new ()
     {
         FirstName = "TestName",
         LastName = "TestName"
@@ -22,22 +22,22 @@ public class AuthorServiceTests
     }
 
     [Fact]
-    public void GetAuthors_ShouldReturnAuthors()
+    public async Task GetAuthors_ShouldReturnAuthors()
     {
         // Arrange
         var authors = new List<Author> { new Author(), new Author() };
         var authorReadDtos = new List<AuthorReadDto> { new AuthorReadDto(), new AuthorReadDto() };
 
-        _authorRepositoryMock.Setup(r => r.ReadAll()).Returns(authors);
+        _authorRepositoryMock.Setup(r => r.ReadAllAsync()).Returns(Task.FromResult(authors));
         _mapperMock.Setup(m => m.Map<List<AuthorReadDto>>(authors)).Returns(authorReadDtos);
 
         // Act
-        var result = _authorService.GetAuthors();
+        var result = await _authorService.GetAuthorsAsync();
 
         // Assert
         result.Should().NotBeNull();
         result.Should().HaveCount(authorReadDtos.Count);
-        _authorRepositoryMock.Verify(r => r.ReadAll(), Times.Once);
+        _authorRepositoryMock.Verify(r => r.ReadAllAsync(), Times.Once);
     }
 
     [Fact]
@@ -55,7 +55,7 @@ public class AuthorServiceTests
         var result = await _authorService.AddAuthorAsync(authorCreateDto);
 
         // Assert
-        Assert.NotNull(result);
+        result.Should().NotBeNull();
         result.Should().BeEquivalentTo(authorCreateDto);
         _authorRepositoryMock.Verify(repo => repo.CreateAsync(It.IsAny<Author>(), It.IsAny<CancellationToken>()), Times.Once);
     }
@@ -80,7 +80,7 @@ public class AuthorServiceTests
         var result = await _authorService.UpdateAuthorAsync(id, authorCreateDto);
 
         // Assert
-        Assert.NotNull(result);
+        result.Should().NotBeNull();
         result.Should().BeEquivalentTo(authorCreateDto);
         _authorRepositoryMock.Verify(repo => repo.UpdateAsync(id, It.IsAny<Author>(), It.IsAny<CancellationToken>()), Times.Once);
     }

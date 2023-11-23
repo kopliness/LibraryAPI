@@ -1,10 +1,12 @@
-﻿using Library.DAL.Repository.Interfaces;
+﻿using System.Security.Authentication;
+using Library.DAL.Repository.Interfaces;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using AutoMapper;
 using Library.Business.Dto;
 using Library.Business.Services.Interfaces;
-using Library.DAL.Models;
 using Library.Common.Exceptions;
+using Library.DAL.Entities;
 using Microsoft.Extensions.Logging;
 
 namespace Library.Business.Services
@@ -13,50 +15,61 @@ namespace Library.Business.Services
     {
         private readonly ITokenService _tokenService;
 
-        private readonly IUserRepository _userRepository;
+        private readonly IAccountRepository _accountRepository;
 
         private readonly IMapper _mapper;
         private readonly ILogger<AuthenticationService> _logger;
 
-        public AuthenticationService(IUserRepository userRepository, ITokenService tokenService, IMapper mapper,
+        public AuthenticationService(IAccountRepository accountRepository, ITokenService tokenService, IMapper mapper,
             ILogger<AuthenticationService> logger)
         {
-            _userRepository = userRepository;
+            _accountRepository = accountRepository;
             _tokenService = tokenService;
             _mapper = mapper;
             _logger = logger;
         }
 
-        public async Task<string?> GetUserTokenAsync(UserDto userDto, CancellationToken cancellationToken = default)
+        public async Task<string?> GetAccountTokenAsync(AccountDto accountDto, CancellationToken cancellationToken = default)
         {
-            _logger.LogInformation("Getting user token");
+            _logger.LogInformation("Getting account token");
             cancellationToken.ThrowIfCancellationRequested();
 
-            var userModel = _mapper.Map<UserDto, User>(userDto);
+            var accountModel = _mapper.Map<AccountDto, Account>(accountDto);
 
-            var user = await _userRepository.GetUserAsync(userModel, cancellationToken);
+            var account = await _accountRepository.GetAccountAsync(accountModel, cancellationToken);
 
-            if (user == null)
+            if (account == null)
             {
-                _logger.LogError($"User with this login:{userModel.Login} is not found.");
-                throw new NotFoundException($"User with this login:{userModel.Login} is not found.");
+                _logger.LogError("Account with this login is not found.");
+                throw new NotFoundException("Account with this login is not found.");
+            }
+            
+            var pbkdf2 = new Rfc2898DeriveBytes(accountDto.Password, Convert.FromBase64String(account.Salt), 100000, HashAlgorithmName.SHA256);
+            var hashedPassword = pbkdf2.GetBytes(32);
+
+            if (Convert.ToBase64String(hashedPassword) != account.Password)
+            {
+                _logger.LogError("Incorrect password.");
+                throw new AuthenticationException("Incorrect password.");
             }
 
             var claims = new List<Claim>
             {
-                new(ClaimTypes.Name, user.Login)
+                new(ClaimTypes.Name, account.Login)
             };
 
-            var token = await _tokenService.GenerateTokenAsync(claims);
+            var token = _tokenService.GenerateTokenAsync(claims);
 
             if (token == null)
             {
                 _logger.LogError("Token not found.");
                 throw new NotFoundException("Token not found.");
             }
-            _logger.LogInformation("Receipt of the user token was successful.");
+            _logger.LogInformation("Receipt of the account token was successful.");
 
             return token;
         }
+
+
     }
 }

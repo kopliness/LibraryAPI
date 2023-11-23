@@ -2,7 +2,7 @@
 using Library.Business.Dto;
 using Library.Business.Services.Interfaces;
 using Library.Common.Exceptions;
-using Library.DAL.Models;
+using Library.DAL.Entities;
 using Library.DAL.Repository.Interfaces;
 using Microsoft.Extensions.Logging;
 
@@ -32,7 +32,7 @@ namespace Library.Business.Services
             if (bookExists != null)
             {                
                 _logger.LogError("A book with this ISBN already exists.");
-                throw new BookExistsException("A book with this ISBN already exists.");
+                throw new ExistsException("A book with this ISBN already exists.");
             }
 
             foreach (var authorId in bookCreateDto.Authors)
@@ -61,8 +61,8 @@ namespace Library.Business.Services
             
             if (book == null)
             {
-                _logger.LogError("Book with ID {id} not found.");
-                throw new NotFoundException($"Book with ID {id} not found.");
+                _logger.LogError($"Book with ID {id} not found.", id);
+                throw new NotFoundException("Book with this id not found.", id);
             }
             _logger.LogInformation("The book was obtained with Id: {id}", id);
 
@@ -77,19 +77,19 @@ namespace Library.Business.Services
             
             if (book == null)
             {
-                _logger.LogError("Book with ISBN {isbn} not found.");
-                throw new NotFoundException($"Book with ISBN {isbn} not found.");
+                _logger.LogError($"Book with ISBN {isbn} not found.");
+                throw new NotFoundException($"Book with this ISBN not found.", isbn);
             }
             _logger.LogInformation("The book was obtained with ISBN: {isbn}", isbn);
 
             return _mapper.Map<Book, BookReadDto>(book);
         }
 
-        public List<BookReadDto> GetBooks()
+        public async Task<List<BookReadDto>> GetBooksAsync()
         {
             _logger.LogInformation("Getting the whole list of books.");
 
-            var books = _bookRepository.ReadAll();
+            var books = await _bookRepository.ReadAllAsync();
             
             _logger.LogInformation("Retrieving the entire list of books was successful.");
 
@@ -98,21 +98,21 @@ namespace Library.Business.Services
 
         public async Task<BookCreateDto?> UpdateBookAsync(Guid id, BookCreateDto bookCreateDto, CancellationToken cancellationToken = default)
         {
-            _logger.LogInformation("Updating book with ISBN: {Isbn}", bookCreateDto.Isbn);
+            _logger.LogInformation($"Updating book with id: {id}", id);
 
             var book = await _bookRepository.ReadByIdAsync(id, cancellationToken);
 
             if (book == null)
             {
-                _logger.LogError("Book with ID {id} not found.");
-                throw new NotFoundException($"Book with ID {id} not found.");
+                _logger.LogError($"Book with ID {id} not found.", id);
+                throw new NotFoundException("Book with this id not found.", id);
             }
             var bookExists = await _bookRepository.ReadByIsbnAsync(bookCreateDto.Isbn, cancellationToken);
 
             if (bookExists != null)
             {
                 _logger.LogError($"A book with this ISBN {bookCreateDto.Isbn} already exists.");
-                throw new BookExistsException($"A book with this ISBN {bookCreateDto.Isbn} already exists.");
+                throw new ExistsException($"A book with this ISBN {bookCreateDto.Isbn} already exists.");
             }
             foreach (var authorId in bookCreateDto.Authors)
             {
@@ -141,8 +141,8 @@ namespace Library.Business.Services
 
             if (book == null)
             {
-                _logger.LogError("Book with ID {id} not found.");
-                throw new NotFoundException("Book with ID {id} not found.");
+                _logger.LogError($"Book with ID {id} not found.", id);
+                throw new NotFoundException("Book with this id not found.", id);
             }
             
             _logger.LogInformation("The removal of the book was successful with Id : {id}", id);

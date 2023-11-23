@@ -1,10 +1,10 @@
 ﻿using Library.Business.Services.Interfaces;
-using Library.DAL.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Library.DAL.Entities;
 
 namespace Library.Business.Services
 {
@@ -14,18 +14,18 @@ namespace Library.Business.Services
 
         public TokenService(IOptions<JwtOptions> jwtOptions) => _jwtOptions = jwtOptions.Value;
 
-        public Task<string> GenerateTokenAsync(List<Claim> claims)
+        public string GenerateTokenAsync(List<Claim> claims)
         {
             var singingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.SecretKey));
 
             var jwt = new JwtSecurityToken(_jwtOptions.Issuer,
                 _jwtOptions.Audience,
                 claims,
-                expires: DateTime.Now.Add(TimeSpan.FromHours(1)),
+                expires: DateTime.Now.Add(TimeSpan.FromHours(6)),
                 notBefore: DateTime.Now,
                 signingCredentials: new(singingKey, SecurityAlgorithms.HmacSha256));
 
-            return Task.FromResult(new JwtSecurityTokenHandler().WriteToken(jwt));
+            return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
     }
 }
