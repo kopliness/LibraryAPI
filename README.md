@@ -63,6 +63,22 @@ You can go to the application page at this link
 
 https://localhost:7148/swagger/index.html
 
+## How to use
+1. First of all, you need to register.
+![image](https://github.com/kopliness/LibraryAPI/assets/92124944/890d483b-db66-464f-b103-8c40efd286df)
+2. After you have completed the previous step, you need to obtain your JWT-Token. You can do this by using this endpoint
+![image](https://github.com/kopliness/LibraryAPI/assets/92124944/5440ebd6-1012-4abf-b359-6e679e2f4ea5)
+3. After that, you need to copy the JWT-Token and paste it into the "Authorize" window, but don't forget to put the word "Bearer" at the beginning.
+![image](https://github.com/kopliness/LibraryAPI/assets/92124944/3102e93f-c21e-4619-b928-6584214d4847)
+4. Now your account is authorized. Go to adding books.
+5. First of all, let's add the necessary author.
+   ![image](https://github.com/kopliness/LibraryAPI/assets/92124944/5ebcd54a-43a6-4a1c-ab5f-e33c961b1e0f)
+6. Next, you need to get the ID of the author you added. Скопируйте authorId.
+   ![image](https://github.com/kopliness/LibraryAPI/assets/92124944/83b52614-6d29-40fe-a1cb-f560394f0fa7)
+7. Now you need to add your book. Add properties to your book, and in the "authors" property, paste the authorId you copied in.
+   ![image](https://github.com/kopliness/LibraryAPI/assets/92124944/447b0345-6673-4c4b-8473-9beaafad49b2)
+8. All right! You have completed the task, now you can continue to perform the book operations you need.
+
 ## Notes
   1. A 3-layer architecture was chosen as the architecture for this assignment. This architecture includes 3 layers: presentation layer, business logic layer, data access layer. There are also 2 additional layers: common and tests.
   2. In addition to repositories, services for more convenient interaction were implemented.
