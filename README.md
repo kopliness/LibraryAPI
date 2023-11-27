@@ -4,6 +4,7 @@
  * [Functionality](#functionality)
  * [Technology Stack](#technology-stack)
  * [Before Running](#before-running)
+ * [How to use](#how-to-use)
  * [Notes](#notes)
 
 ## Functionality:
